@@ -1,18 +1,3 @@
-const cardList = [
-	{
-		title: "Kitten 2",
-		image: "images/kitten2.png",
-		link: "About Kitten 2",
-		desciption: "Meow meow meow meow meow!"
-	},
-	{
-		title: "Kitten 3",
-		image: "images/kitten3.png",
-		link: "About Kitten 3",
-		desciption: "Meow meow meow meow meow meow meow meow meow meow!"
-	}
-]
-
 const addCards = (items) => {
 	items.forEach(item => {
 		let itemToAppend = '<div class="col s4 center-align">' +
@@ -42,12 +27,35 @@ const getProjects = () => {
 
 const submitForm = () => {
 	let formData = {};
-	formData.first_name = $('#first_name').val();
-	formData.last_name = $('#last_name').val();
-	formData.password = $('#password').val();
-	formData.email = $('#email').val();
+	formData.title = $('#title').val();
+	formData.image = $('#image').val();
+	formData.link = $('#link').val();
+	formData.description = $('#description').val();
 
 	console.log("Form Data Submitted: ", formData);
+	postCat(formData);
+}
+
+function postCat(cat){
+    $.ajax({
+        url:'/api/cat',
+        type:'POST',
+        data:cat,
+        success: (result)=>{
+            if (result.statusCode === 201) {
+                alert('cat post successful');
+            }
+        }
+    });
+}
+
+function getAllCats(){
+    $.get('/api/cats', (response)=>{
+        // response's data is in array format, so we can use it
+        if (response.statusCode === 200) {
+            addCards(response.data);
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -55,12 +63,14 @@ $(document).ready(function () {
 	$('#formSubmit').click(() => {
 		submitForm();
 	});
-    // Removed upon adding submit form functionality
-	//	$('#clickMeButton').click(() => {
+	$('.modal').modal();
+	getAllCats();
+// Removed upon adding submit form functionality
+//	$('#clickMeButton').click(() => {
 //		clickMe();
 //	});
-	addCards(cardList);
-	$('.modal').modal();
-	getProjects();
-	$('.modal').modal();
+//	addCards(cardList);
+//	$('.modal').modal();
+//	getProjects();
+//	$('.modal').modal();
 });
