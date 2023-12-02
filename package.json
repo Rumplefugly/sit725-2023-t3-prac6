@@ -1,7 +1,7 @@
 {
-  "name": "sit725-2023-t2-prac3",
+  "name": "sit725-2023-t3-prac4",
   "version": "1.0.0",
-  "description": "Task 3.2P",
+  "description": "Task 4.2P",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
