@@ -27,6 +27,14 @@ const addCards = (items) => {
 	});
 }
 
+const getProjects = () => {
+	$.get('/api/projects',(response) => {
+		if(response.statusCode==200){
+			addCards(response.data);
+		}
+	})
+}
+
 // Removed upon adding submit form functionality
 //const clickMe = () => {
 //	alert("Thanks for clicking me. Hope you have a nice day!")
@@ -52,5 +60,7 @@ $(document).ready(function () {
 //		clickMe();
 //	});
 	addCards(cardList);
+	$('.modal').modal();
+	getProjects();
 	$('.modal').modal();
 });
