@@ -1,19 +1,15 @@
-
-alert("script.js is executing!");
-
 const cardList = [
 	{
 		title: "Kitten 2",
-		//In the lecturer's notes, this is shown as path: "images/kitten2.png",
 		image: "images/kitten2.png",
 		link: "About Kitten 2",
-		desciption: "Demo desciption about kitten 2"
+		desciption: "Meow meow meow meow meow!"
 	},
 	{
 		title: "Kitten 3",
 		image: "images/kitten3.png",
 		link: "About Kitten 3",
-		desciption: "Demo desciption about kitten 3"
+		desciption: "Meow meow meow meow meow meow meow meow meow meow!"
 	}
 ]
 
@@ -31,11 +27,12 @@ const addCards = (items) => {
 	});
 }
 
-const clickMe = () => {
-	alert("Thanks for clicking me. Hope you have a nice day!")
-}
+// Removed upon adding submit form functionality
+//const clickMe = () => {
+//	alert("Thanks for clicking me. Hope you have a nice day!")
+//}
 
-/*const submitForm = () => {
+const submitForm = () => {
 	let formData = {};
 	formData.first_name = $('#first_name').val();
 	formData.last_name = $('#last_name').val();
@@ -43,18 +40,17 @@ const clickMe = () => {
 	formData.email = $('#email').val();
 
 	console.log("Form Data Submitted: ", formData);
-}*/
-
+}
 
 $(document).ready(function () {
 	$('.materialboxed').materialbox();
 	$('#formSubmit').click(() => {
 		submitForm();
-		//in lecturer, it is formSummitted();
 	});
-	$('#clickMeButton').click(() => {
-		clickMe();
-	});
+    // Removed upon adding submit form functionality
+	//	$('#clickMeButton').click(() => {
+//		clickMe();
+//	});
 	addCards(cardList);
 	$('.modal').modal();
 });
