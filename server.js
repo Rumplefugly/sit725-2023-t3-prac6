@@ -33,13 +33,15 @@ app.get('/', function (req,res) {
 	res.render('index.html');
 });
 
-app.get('/api/cats', (req,res) => {
-    getAllCats((err,result)=>{
+app.get('/api/cats', (req, res) => {
+	console.log("app.get making a getAllCats() request");
+	getAllCats((err, cats) => {
         if (err) {
-            console.error('Failed to return values:', err);
-            res.json({statusCode: 500, message: 'Failed to return values'});
+			console.log("getAllCats function error");
+            res.json({statusCode: 500, message: 'Failed to get cats'});
         } else {
-            res.json({statusCode: 200, data: result, message:"get all cats successful"});
+			console.log("getAllCats function success");
+            res.json({statusCode: 200, data: cats});
         }
     });
 });
@@ -65,6 +67,12 @@ function postCat(cat,callback) {
 function getAllCats(callback){
     collection.find({}).toArray(callback);
 }
+
+/*function getAllCats(callback){
+	console.log("Function getAllCats called");
+    collection.find({}).toArray(callback);
+	console.log("collection find function returned");
+}*/
 
 /*const cardList = [
 	{
