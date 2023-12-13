@@ -1,5 +1,5 @@
 const addCards = (items) => {
-	console.log("scripts.js addCards function called");
+	//console.log("scripts.js addCards function called");
 	items.forEach(item => {
 		let itemToAppend = '<div class="col s4 center-align">' +
 			'<div class="card medium"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' + item.image + '">' +
@@ -21,11 +21,6 @@ const getProjects = () => {
 	})
 }
 
-// Removed upon adding submit form functionality
-//const clickMe = () => {
-//	alert("Thanks for clicking me. Hope you have a nice day!")
-//}
-
 const submitForm = () => {
 	let formData = {};
 	formData.title = $('#title').val();
@@ -33,7 +28,7 @@ const submitForm = () => {
 	formData.link = $('#link').val();
 	formData.description = $('#description').val();
 
-	console.log("Form Data Submitted: ", formData);
+	//console.log("Form Data Submitted: ", formData);
 	postCat(formData);
 }
 
@@ -52,31 +47,20 @@ function postCat(cat){
 
 function getAllCats(){
     $.get('/api/cats', (response)=>{
-		console.log('script.js getAllCats called');
+		//console.log('script.js getAllCats called');
         // response's data is in array format, so we can use it
         if (response.statusCode === 200) {
             addCards(response.data);
         }
-		//console.log(response.data);
-		//console.log(response.data[0]);
-		//addCards(response.data);
     });
 }
 
 $(document).ready(function () {
-	console.log('Document is ready');
+	//console.log('Document is ready');
 	$('.materialboxed').materialbox();
 	$('#formSubmit').click(() => {
 		submitForm();
 	});
 	$('.modal').modal();
 	getAllCats();
-// Removed upon adding submit form functionality
-//	$('#clickMeButton').click(() => {
-//		clickMe();
-//	});
-//	addCards(cardList);
-//	$('.modal').modal();
-//	getProjects();
-//	$('.modal').modal();
 });
