@@ -2,7 +2,10 @@ var express = require("express")
 var app = express()
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
+//Localhost mongodb connection
 const uri = "mongodb://localhost:27017";
+//Atlas mongodb connection
+//const uri = "mongodb+srv://sit725:X0vmdHYKxDma8Ovb@test.vhgjzba.mongodb.net/?retryWrites=true&w=majority";
 var port = process.env.port || 3000;
 let collection;
 
@@ -22,8 +25,8 @@ async function runDBConnection() {
 	try {
 		await client.connect();
 		collection = client.db().collection('Cat');
-		console.log(collection);
-		console.log("Successfully connected to MongoDB")
+		//console.log(collection);
+		console.log("server.js Successfully connected to MongoDB")
 	} catch(ex) {
 		console.error("Failed connection to MonboDB:", ex);
 	}
@@ -34,13 +37,14 @@ app.get('/', function (req,res) {
 });
 
 app.get('/api/cats', (req, res) => {
-	console.log("app.get making a getAllCats() request");
+	console.log("server.js app.get making a getAllCats() request");
 	getAllCats((err, cats) => {
+		console.log('server.js getAllCats function called before response');
         if (err) {
-			console.log("getAllCats function error");
+			console.log("server.js getAllCats function error");
             res.json({statusCode: 500, message: 'Failed to get cats'});
         } else {
-			console.log("getAllCats function success");
+			console.log("server.js getAllCats function success");
             res.json({statusCode: 200, data: cats});
         }
     });
@@ -65,8 +69,33 @@ function postCat(cat,callback) {
 }
 
 function getAllCats(callback){
-    collection.find({}).toArray(callback);
+    console.log('server.js function getAllCats(callback) called');
+    //console.log('Collection:', collection);
+    collection.find({}).toArray()
+    .then((docs) => {
+        console.log('server.js fetched cats:', docs);
+        callback(null, docs);
+    })
+    .catch((err) => {
+        console.error('server.js Failed to find values in mongodb:', err);
+        callback(err);
+    });
 }
+
+/*function getAllCats(callback){
+	console.log('server.js function getAllCats(callback) called');
+    //collection.find({}).toArray(callback);
+	console.log('Collection:', collection);
+	collection.find({}).toArray((err, docs)=>{
+		if (err) {
+			console.error('server.js Failed to find values in mongodb:', err);
+		} else {
+			console.log('server.js fetched cats:', docs);
+		}
+		callback(err, docs);
+	});
+}*/
+
 
 /*function getAllCats(callback){
 	console.log("Function getAllCats called");
