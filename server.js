@@ -5,7 +5,6 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 //Localhost mongodb connection
 const uri = "mongodb://localhost:27017";
 //Atlas mongodb connection
-//const uri = "mongodb+srv://sit725:X0vmdHYKxDma8Ovb@test.vhgjzba.mongodb.net/?retryWrites=true&w=majority";
 var port = process.env.port || 3000;
 let collection;
 
