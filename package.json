@@ -1,21 +1,21 @@
 {
-  "name": "sit725-2023-t3-prac5",
+  "name": "sit725-2023-t3-prac6",
   "version": "1.0.0",
-  "description": "Task 5.2C",
+  "description": "Task 6.2D",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rumplefugly/sit725-2023-t3-prac5.git"
+    "url": "git+https://github.com/rumplefugly/sit725-2023-t3-prac6.git"
   },
   "author": "Nathan Hughes",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rumplefugly/sit725-2023-t3-prac5/issues"
+    "url": "https://github.com/rumplefugly/sit725-2023-t3-prac6/issues"
   },
-  "homepage": "https://github.com/rumplefugly/sit725-2023-t3-prac5#readme",
+  "homepage": "https://github.com/rumplefugly/sit725-2023-t3-prac6#readme",
   "dependencies": {
     "express": "^4.18.2",
     "mongodb": "^6.3.0"
