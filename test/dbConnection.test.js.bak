@@ -1,0 +1,48 @@
+/* Test functionality in the dbConnection.js file */
+
+// Import dbConnection.js and db
+const {client, runDBConnection } = require('../dbConnection');
+const { MongoClient } = require("mongodb");
+
+// Create simulated interface for mongodb
+jest.mock('mongodb');
+
+// Simulate connection method to overcome undefined error on test
+// update code to make async call to mongodb simulation
+//MongoClient.connect = jest.fn().mockResolvedValue({
+MongoClient.connect = jest.fn().mockImplementation(() => {
+    return new Promise((resolve) => {
+        process.nextTick(() => resolve({
+        db: () => ({
+            collection: jest.fn().mockReturnValue('mock collection'),
+            }),
+        }));
+    });
+});
+
+describe('DB Connection', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('test creation of MongoClient', () => {
+        expect(MongoClient).toHaveBeenCalledWith("mongodb://localhost:27017", expect.any(Object));
+    });
+
+    it('test connection to client', async () => {
+        await runDBConnection();
+        expect(client.connect).toHaveBeenCalled();
+    });
+
+    it('test collection instantiation', async () => {
+        const collection = await runDBConnection();
+        //expect(collection).toBeDefined();
+        // Return simulated value to overcome undefined error
+        expect(collection).toEqual('mock collection')
+    });
+
+    it('test error handling on connection calls', async () => {
+        client.connect.mockImplementationOnce(() => Promise.reject(new Error('Connection Error')));
+        await expect(runDBConnection()).rejects.toThrow('Connection Error');
+    });
+});

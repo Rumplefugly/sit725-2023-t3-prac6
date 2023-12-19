@@ -1,0 +1,74 @@
+const fs = require('fs');
+const path = require('path');
+const html = fs.readFileSync(path.resolve(__dirname, '../public/index.html'), 'utf8');
+const { JSDOM } = require('jsdom');
+const { expect } = require('chai');
+const sinon = require('sinon');
+// jquery incompatible with test framework. Switching to nock
+//const $ = require('jquery');
+const nock = require('nock');
+const jsdomGlobal = require('jsdom-global');
+
+//global.document = new JSDOM(html).window.document;
+//const { window } = new JSDOM(html);
+//global.window = document.defaultView;
+//global.$ = $(window);
+//global.window = window;
+//global.document = window.document;
+
+jsdomGlobal(html);
+
+// Import the functions and objects you want to test
+const { submitForm, getAllCats } = require('../public/js/scripts');
+
+describe('scripts.js tests', () => {
+  let ajaxStub;
+
+  beforeEach(() => {
+    //ajaxStub = sinon.stub($, 'ajax');
+    //ajaxStub = sinon.stub(window.$, 'ajax');
+    global.window = new jsdom.JSDOM(html).window;
+    global.document = window.document;
+    global.$ = require('jquery')(window);
+    ajaxStub = sinon.stub(global.$, 'ajax');
+  });
+
+  afterEach(() => {
+    //$.ajax.restore();
+    //window.$.ajax.restore();
+    global.$.ajax.restore();
+  });
+
+  it('submitForm should make a POST request with correct data', () => {
+    // Set up your input values
+    $('#name').val('Test Name');
+    $('#image').val('test.jpg');
+    $('#link').val('https://test.com');
+    $('#description').val('Test Description');
+
+    // Call your function
+    submitForm();
+
+    // Check the results
+    expect(ajaxStub.calledOnce).to.be.true;
+    expect(ajaxStub.firstCall.args[0].url).to.equal('/api/cats');
+    expect(ajaxStub.firstCall.args[0].type).to.equal('POST');
+    expect(ajaxStub.firstCall.args[0].data).to.deep.equal({
+      name: 'Test Name',
+      image: 'images/test.jpg',
+      link: 'https://test.com',
+      description: 'Test Description'
+    });
+  });
+
+  it('getAllCats should make a GET request to correct URL', () => {
+    // Call your function
+    getAllCats();
+
+    // Check the results
+    expect(ajaxStub.calledOnce).to.be.true;
+    expect(ajaxStub.firstCall.args[0].url).to.equal('/api/cats');
+  });
+
+  // Add more tests as needed
+});

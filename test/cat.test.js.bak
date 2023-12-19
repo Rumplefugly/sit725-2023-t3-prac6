@@ -1,0 +1,21 @@
+const { client, runDBConnection } = require('../dbConnection');
+const { getAllCats } = require('../models/cat'); // Import the function you want to test
+
+describe('Cat Model Test', () => {
+  let collection;
+
+  beforeAll(async () => {
+    collection = await runDBConnection();
+  });
+
+  test('getAllCats should return an array of cats', async () => {
+    const cats = await getAllCats(collection);
+    expect(Array.isArray(cats)).toBe(true);
+  });
+
+  // Add more tests as needed
+
+  afterAll(async () => {
+    await client.close();
+  });
+});

@@ -1,0 +1,38 @@
+/* Test functionality in the catConnection.js file */
+
+// Initialize db connection
+const {client, runDBConnection} = require('../dbConnection');
+
+// Call supertest framework
+const request = require('supertest');
+const express = require('express');
+// Import catController.js file
+const catController = require('../controllers/catController');
+
+const app = express();
+app.use(express.json());
+app.use('/', catController);
+
+describe('Test api/cats', () => {
+  // Call jest function to connect to db before running tests
+  beforeAll(async () => {
+    await runDBConnection();
+  });
+  
+  // Run first get requuest to cats api
+  it('should respond to GET /api/cats', async () => {
+    const res = await request(app).get('/api/cats');
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it('test api/cat', async () => {
+    const newCat = { name: 'Test Cat', image: 'testkitty.png', link: 'testlink.com' , description: 'This is a unit test of a cat post request' }; // replace with your actual cat data structure
+    const res = await request(app).post('/api/cat').send(newCat);
+    expect(res.statusCode).toEqual(201);
+  });
+
+  // After tests completed, close connection to db
+  afterAll(async () => {
+    await client.close();
+  });
+});

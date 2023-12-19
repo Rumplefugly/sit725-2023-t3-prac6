@@ -7,6 +7,7 @@ async function initializeCollection() {
 }
 
 async function getAllCats() {
+//async function getAllCats(collection) { // Works because it passes the collection
     const docs = await collection.find({}).toArray();
     return docs;
 }
@@ -16,4 +17,4 @@ async function postCat(cat) {
     return result;
 }
 
-module.exports = { initializeCollection, getAllCats, postCat}
+module.exports = { initializeCollection, getAllCats, postCat }

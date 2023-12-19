@@ -56,12 +56,15 @@ function getAllCats(){
     });
 }
 
-$(document).ready(function () {
-    //console.log('Document is ready');
-    $('.materialboxed').materialbox();
-    $('#formSubmit').click(() => {
-        submitForm();
+// Update document ready function to allow for undefined material calls from test cases
+if (typeof window !== 'undefined' && $.fn.materialbox) {
+    $(document).ready(function () {
+        //console.log('Document is ready');
+        $('.materialboxed').materialbox();
+        $('#formSubmit').click(() => {
+            submitForm();
+        });
+        $('.modal').modal();
+        getAllCats();
     });
-    $('.modal').modal();
-    getAllCats();
-});
+}
